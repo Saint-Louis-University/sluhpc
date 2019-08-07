@@ -211,6 +211,7 @@ slurm_is_running <- function(session,
 #' @param session ssh connection created with \code{\link{apex_connect}}
 #' @param slurm_job a slurm_job object created with \code{\link{slurm_apply}}
 #' @param parent_directory location of slurm job folder on apex
+#' @param seconds seconds between job completion checks
 #' @param ... further arguments passed to \code{\link{apex_download}}
 #'
 #' @export
@@ -225,17 +226,20 @@ slurm_is_running <- function(session,
 #'                          "find_meaning")
 #' slurm_upload(session, slurm_job)
 #' slurm_submit(session, slurm_job)
-#' while(slurm_is_running(session, slurm_job)) {
-#'   Sys.sleep(1)
-#' }
 #' slurm_download(session, slurm_job)
 #' }
+#'
+#' @note This function will block until the job finishes on the cluster.
 #'
 #' @seealso \code{\link{apex_download}}
 slurm_download <- function(session,
                            slurm_job,
                            parent_directory = "Documents",
+                           seconds = 10,
                            ...) {
+  while(slurm_is_running(session, slurm_job)) {
+    Sys.sleep(seconds)
+  }
   job_directory <- slurm_dir(slurm_job)
   apex_download(session,
                 paste0(parent_directory, "/", job_directory),
@@ -259,9 +263,6 @@ slurm_download <- function(session,
 #'                          "find_meaning")
 #' slurm_upload(session, slurm_job)
 #' slurm_submit(session, slurm_job)
-#' while(slurm_is_running(session, slurm_job)) {
-#'   Sys.sleep(1)
-#' }
 #' slurm_download(session, slurm_job)
 #' results <- slurm_output_dfr(slurm_job)
 #' }
@@ -319,9 +320,6 @@ slurm_cancel <- function(session, slurm_job) {
 #'                          "find_meaning")
 #' slurm_upload(session, slurm_job)
 #' slurm_submit(session, slurm_job)
-#' while(slurm_is_running(session, slurm_job)) {
-#'   Sys.sleep(1)
-#' }
 #' slurm_download(session, slurm_job)
 #' results <- slurm_output_dfr(slurm_job)
 #' slurm_remove_apex(session, slurm_job)
@@ -355,9 +353,6 @@ slurm_remove_apex <- function(session,
 #'                          "find_meaning")
 #' slurm_upload(session, slurm_job)
 #' slurm_submit(session, slurm_job)
-#' while(slurm_is_running(session, slurm_job)) {
-#'   Sys.sleep(1)
-#' }
 #' slurm_download(session, slurm_job)
 #' results <- slurm_output_dfr(slurm_job)
 #' slurm_remove_apex(session, slurm_job)

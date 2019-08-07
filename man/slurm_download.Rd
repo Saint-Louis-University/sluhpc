@@ -4,7 +4,8 @@
 \alias{slurm_download}
 \title{SLURM Download}
 \usage{
-slurm_download(session, slurm_job, parent_directory = "Documents", ...)
+slurm_download(session, slurm_job, parent_directory = "Documents",
+  seconds = 10, ...)
 }
 \arguments{
 \item{session}{ssh connection created with \code{\link{apex_connect}}}
@@ -13,10 +14,15 @@ slurm_download(session, slurm_job, parent_directory = "Documents", ...)
 
 \item{parent_directory}{location of slurm job folder on apex}
 
+\item{seconds}{seconds between job completion checks}
+
 \item{...}{further arguments passed to \code{\link{apex_download}}}
 }
 \description{
 SLURM Download
+}
+\note{
+This function will block until the job finishes on the cluster.
 }
 \examples{
 \dontrun{
@@ -28,9 +34,6 @@ slurm_job <- slurm_apply(do_search,
                          "find_meaning")
 slurm_upload(session, slurm_job)
 slurm_submit(session, slurm_job)
-while(slurm_is_running(session, slurm_job)) {
-  Sys.sleep(1)
-}
 slurm_download(session, slurm_job)
 }
 

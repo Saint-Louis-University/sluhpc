@@ -55,6 +55,14 @@ If working off campus, you will need to log into the
 [VPN](https://vpn.slu.edu/+CSCOE+/logon.html) using your SLU Net ID and
 password.
 
+### Credentials
+
+By default, credentials to connect to the HPC are read from the
+environment variables `APEX.SLU.EDU_USER` and `APEX.SLU.EDU_PASS` using
+[`base::Sys.getenv()`](https://www.rdocumentation.org/packages/base/versions/3.6.1/topics/Sys.getenv).
+These variables are commonly set via a [.Renviron
+file](https://www.rdocumentation.org/packages/base/versions/3.6.1/topics/Startup).
+
 <br />
 
 ## Example
@@ -88,8 +96,10 @@ slurm_job <- slurm_apply(my_function,
 
 We open a [secure shell](https://en.wikipedia.org/wiki/Secure_Shell)
 (SSH) connection to the cluster using credentials stored in your
-.Renviron file, upload the previously created local folder, and submit
-the job to the [Slurm Workload
+[.Renviron
+file](https://www.rdocumentation.org/packages/base/versions/3.6.1/topics/Startup),
+upload the previously created local folder, and submit the job to the
+[Slurm Workload
 Manager](https://en.wikipedia.org/wiki/Slurm_Workload_Manager).
 
 ``` r
@@ -100,12 +110,13 @@ slurm_submit(session, slurm_job)
 
 ### Step 3
 
-When the job is complete, we can download the output files into our
-local folder, row bind the results together, and disconnect our SSH
-session.
+The `slurm_download()` function will block until the job has completed
+running on the cluster and then download the results via
+[SCP](https://en.wikipedia.org/wiki/Secure_copy). We can then bind the
+results from each node together into a data frame object, and disconnect
+our SSH session.
 
 ``` r
-while(slurm_is_running(session, slurm_job)) { Sys.sleep(5) }
 slurm_download(session, slurm_job)
 results <- slurm_output_dfr(slurm_job)
 apex_disconnect(session)

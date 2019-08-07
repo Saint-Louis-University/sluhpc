@@ -25,9 +25,6 @@ slurm_job <- slurm_apply(do_search,
                          "find_meaning")
 slurm_upload(session, slurm_job)
 slurm_submit(session, slurm_job)
-while(slurm_is_running(session, slurm_job)) {
-  Sys.sleep(1)
-}
 slurm_download(session, slurm_job)
 results <- slurm_output_dfr(slurm_job)
 }

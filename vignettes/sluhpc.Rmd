@@ -21,7 +21,7 @@ The purpose of the `sluhpc` package is to simplify the steps necessary to distri
 
 # .Renviron
 
-By default, credentials to connect to the HPC are read from the environment variables `APEX.SLU.EDU_USER` and `APEX.SLU.EDU_PASS` using [`base::Sys.getenv()`](https://www.rdocumentation.org/packages/base/versions/3.6.1/topics/Sys.getenv). Perhaps most commonly, these variables are set via a [.Renviron file](https://www.rdocumentation.org/packages/base/versions/3.6.1/topics/Startup). This approach has the benefit of keeping R code non-interactive and devoid of credentials but has a disadvantage that the credentials are stored in plain text. If a more secure credentialing method is desired, the default arguments should be overridden.
+By default, credentials to connect to the HPC are read from the environment variables `APEX.SLU.EDU_USER` and `APEX.SLU.EDU_PASS` using [`base::Sys.getenv()`](https://www.rdocumentation.org/packages/base/versions/3.6.1/topics/Sys.getenv). These variables are commonly set via a [.Renviron file](https://www.rdocumentation.org/packages/base/versions/3.6.1/topics/Startup). This approach has the benefit of keeping R code non-interactive and devoid of credentials but has a disadvantage that the credentials are stored in plain text. If a more secure credentialing method is desired, the default arguments should be overridden.
 
 # Basic Example
 
@@ -65,21 +65,13 @@ slurm_upload(session, slurm_job)
 slurm_submit(session, slurm_job)
 ```
 
-At this point if we are willing to wait, we might block until job completion.
-
-```{r}
-while(slurm_is_running(session, slurm_job)) {
-  Sys.sleep(10) # sleep ten seconds
-}
-```
-
-We can also cancel a job if it is taking too long or we notice a mistake in our setup.
+We can cancel a job if it is taking too long, or we notice a mistake in our setup.
 
 ```{r, eval=FALSE}
 slurm_cancel(session, slurm_job)
 ```
 
-Once the job is complete, we can download the results via [SCP](https://en.wikipedia.org/wiki/Secure_copy), and bind the results from each node together into a data frame object.
+The `slurm_download()` function will block until the job has completed running on the cluster and then download the results via [SCP](https://en.wikipedia.org/wiki/Secure_copy). We can then bind the results from each node together into a data frame object.
 
 ```{r}
 slurm_download(session, slurm_job)
