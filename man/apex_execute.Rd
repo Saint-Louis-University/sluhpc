@@ -20,9 +20,11 @@ list containing exit status, buffered raw stdout, and buffered raw stderr
 APEX Execute
 }
 \examples{
+\dontrun{
 session <- apex_connect()
 out <- apex_execute(session)
 rawToChar(out$stdout)
+}
 
 }
 \seealso{

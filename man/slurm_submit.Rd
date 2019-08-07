@@ -20,6 +20,7 @@ character representation of stdout
 SLURM Submit
 }
 \examples{
+\dontrun{
 session <- apex_connect()
 do_search <- function(x, y) x + y
 slurm_job <- slurm_apply(do_search,
@@ -28,6 +29,7 @@ slurm_job <- slurm_apply(do_search,
                          "find_meaning")
 slurm_upload(session, slurm_job)
 slurm_submit(session, slurm_job)
+}
 
 }
 \seealso{

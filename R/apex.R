@@ -8,8 +8,10 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' # retrive user and pass from .Renviron file in user home directory
 #' session <- apex_connect()
+#' }
 #'
 #' @seealso \code{\link[ssh]{ssh_connect}}
 apex_connect <- function(user = Sys.getenv("APEX.SLU.EDU_USER"),
@@ -31,9 +33,11 @@ apex_connect <- function(user = Sys.getenv("APEX.SLU.EDU_USER"),
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' session <- apex_connect()
 #' out <- apex_execute(session)
 #' rawToChar(out$stdout)
+#' }
 #'
 #' @seealso \code{\link[ssh]{ssh_exec_internal}}
 apex_execute <- function(session,
@@ -52,9 +56,11 @@ apex_execute <- function(session,
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' # recursively download files and directories
 #' session <- apex_connect()
 #' apex_download(session, "~/target/*", tempdir())
+#' }
 #'
 #' @seealso \code{\link[ssh]{scp_download}}
 apex_download <- function(session,
@@ -74,10 +80,12 @@ apex_download <- function(session,
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' # recursively upload files and directories
 #' session <- apex_connect()
 #' files <- c(R.home("doc"), R.home("COPYING"))
 #' apex_upload(session, files, "~/target")
+#' }
 #'
 #' @seealso \code{\link[ssh]{scp_upload}}
 apex_upload <- function(session,
@@ -94,8 +102,10 @@ apex_upload <- function(session,
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' session <- apex_connect()
 #' apex_disconnect(session)
+#' }
 #'
 #' @seealso \code{\link[ssh]{ssh_disconnect}}
 apex_disconnect <- function(session) {

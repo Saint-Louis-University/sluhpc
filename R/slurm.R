@@ -6,12 +6,14 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' do_search <- function(x, y) x + y
 #' slurm_job <- slurm_apply(do_search,
 #'                          data.frame(x = seq( 0, 42,  21),
 #'                                     y = seq(42,  0, -21)),
 #'                          "find_meaning")
 #' slurm_dir(slurm_job)
+#' }
 #'
 #' @seealso
 #' \code{\link{slurm_apply}}
@@ -27,6 +29,7 @@ slurm_dir <- function(slurm_job) {
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' # exclude sluhpc
 #' attached_packages()
 #'
@@ -35,6 +38,7 @@ slurm_dir <- function(slurm_job) {
 #'
 #' # exclude base and stats
 #' attached_packages(c("base", "stats"))
+#' }
 #'
 #' @seealso \code{\link[base]{.packages}}
 attached_packages <- function(exclude = c("sluhpc")) {
@@ -60,11 +64,13 @@ attached_packages <- function(exclude = c("sluhpc")) {
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' do_search <- function(x, y) x + y
 #' slurm_job <- slurm_apply(do_search,
 #'                          data.frame(x = seq( 0, 42,  21),
 #'                                     y = seq(42,  0, -21)),
 #'                          "find_meaning")
+#' }
 #'
 #' @note this function overrides \code{\link[rslurm]{slurm_apply}} to add a command in the submission script to load R on APEX and call RScript with a relative path
 slurm_apply <- function (f,
@@ -119,6 +125,7 @@ slurm_apply <- function (f,
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' session <- apex_connect()
 #' do_search <- function(x, y) x + y
 #' slurm_job <- slurm_apply(do_search,
@@ -126,6 +133,7 @@ slurm_apply <- function (f,
 #'                                     y = seq(42,  0, -21)),
 #'                          "find_meaning")
 #' slurm_upload(session, slurm_job)
+#' }
 #'
 #' @seealso \code{\link{apex_upload}}
 slurm_upload <- function(session,
@@ -146,6 +154,7 @@ slurm_upload <- function(session,
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' session <- apex_connect()
 #' do_search <- function(x, y) x + y
 #' slurm_job <- slurm_apply(do_search,
@@ -154,6 +163,7 @@ slurm_upload <- function(session,
 #'                          "find_meaning")
 #' slurm_upload(session, slurm_job)
 #' slurm_submit(session, slurm_job)
+#' }
 #'
 #' @seealso \code{\link{apex_execute}}
 slurm_submit <- function(session,
@@ -175,6 +185,7 @@ slurm_submit <- function(session,
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' session <- apex_connect()
 #' do_search <- function(x, y) x + y
 #' slurm_job <- slurm_apply(do_search,
@@ -184,6 +195,7 @@ slurm_submit <- function(session,
 #' slurm_upload(session, slurm_job)
 #' slurm_submit(session, slurm_job)
 #' slurm_is_running(session, slurm_job)
+#' }
 #'
 #' @seealso \code{\link{apex_execute}}
 slurm_is_running <- function(session,
@@ -204,6 +216,7 @@ slurm_is_running <- function(session,
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' session <- apex_connect()
 #' do_search <- function(x, y) x + y
 #' slurm_job <- slurm_apply(do_search,
@@ -216,6 +229,7 @@ slurm_is_running <- function(session,
 #'   Sys.sleep(1)
 #' }
 #' slurm_download(session, slurm_job)
+#' }
 #'
 #' @seealso \code{\link{apex_download}}
 slurm_download <- function(session,
@@ -236,6 +250,7 @@ slurm_download <- function(session,
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' session <- apex_connect()
 #' do_search <- function(x, y) x + y
 #' slurm_job <- slurm_apply(do_search,
@@ -249,6 +264,7 @@ slurm_download <- function(session,
 #' }
 #' slurm_download(session, slurm_job)
 #' results <- slurm_output_dfr(slurm_job)
+#' }
 #'
 #' @seealso \code{\link[rslurm]{get_slurm_out}}
 slurm_output_dfr <- function(slurm_job) {
@@ -264,6 +280,7 @@ slurm_output_dfr <- function(slurm_job) {
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' session <- apex_connect()
 #' do_search <- function(x, y) x + y
 #' slurm_job <- slurm_apply(do_search,
@@ -274,6 +291,7 @@ slurm_output_dfr <- function(slurm_job) {
 #' slurm_submit(session, slurm_job)
 #' if(slurm_is_running(session, slurm_job))
 #'   slurm_cancel(session, slurm_job)
+#' }
 #'
 #' @seealso \code{\link{apex_execute}}
 slurm_cancel <- function(session, slurm_job) {
@@ -292,6 +310,7 @@ slurm_cancel <- function(session, slurm_job) {
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' session <- apex_connect()
 #' do_search <- function(x, y) x + y
 #' slurm_job <- slurm_apply(do_search,
@@ -307,6 +326,7 @@ slurm_cancel <- function(session, slurm_job) {
 #' results <- slurm_output_dfr(slurm_job)
 #' slurm_remove_apex(session, slurm_job)
 #' apex_disconnect(session)
+#' }
 #'
 #' @seealso \code{\link{apex_execute}}
 slurm_remove_apex <- function(session,
@@ -326,6 +346,7 @@ slurm_remove_apex <- function(session,
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' session <- apex_connect()
 #' do_search <- function(x, y) x + y
 #' slurm_job <- slurm_apply(do_search,
@@ -342,6 +363,7 @@ slurm_remove_apex <- function(session,
 #' slurm_remove_apex(session, slurm_job)
 #' apex_disconnect(session)
 #' slurm_remove_local(slurm_job)
+#' }
 #'
 #' @seealso \code{\link[rslurm]{cleanup_files}}
 slurm_remove_local <- function(slurm_job) {

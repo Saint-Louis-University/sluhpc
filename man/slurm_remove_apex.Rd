@@ -20,6 +20,7 @@ character representation of stdout
 SLURM Remove Job Directory on APEX
 }
 \examples{
+\dontrun{
 session <- apex_connect()
 do_search <- function(x, y) x + y
 slurm_job <- slurm_apply(do_search,
@@ -35,6 +36,7 @@ slurm_download(session, slurm_job)
 results <- slurm_output_dfr(slurm_job)
 slurm_remove_apex(session, slurm_job)
 apex_disconnect(session)
+}
 
 }
 \seealso{

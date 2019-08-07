@@ -16,6 +16,7 @@ character vector of currently attached packages less those listed in the exclude
 Currently Attached Packages with Exclusions
 }
 \examples{
+\dontrun{
 # exclude sluhpc
 attached_packages()
 
@@ -24,6 +25,7 @@ attached_packages("base")
 
 # exclude base and stats
 attached_packages(c("base", "stats"))
+}
 
 }
 \seealso{

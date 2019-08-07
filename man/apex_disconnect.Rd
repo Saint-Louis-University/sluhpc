@@ -13,8 +13,10 @@ apex_disconnect(session)
 APEX Disconnect
 }
 \examples{
+\dontrun{
 session <- apex_connect()
 apex_disconnect(session)
+}
 
 }
 \seealso{

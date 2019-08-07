@@ -20,6 +20,7 @@ target location as string
 SLURM Upload
 }
 \examples{
+\dontrun{
 session <- apex_connect()
 do_search <- function(x, y) x + y
 slurm_job <- slurm_apply(do_search,
@@ -27,6 +28,7 @@ slurm_job <- slurm_apply(do_search,
                                     y = seq(42,  0, -21)),
                          "find_meaning")
 slurm_upload(session, slurm_job)
+}
 
 }
 \seealso{

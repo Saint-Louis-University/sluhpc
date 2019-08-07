@@ -13,6 +13,7 @@ slurm_remove_local(slurm_job)
 SLURM Remove Local Job Directory
 }
 \examples{
+\dontrun{
 session <- apex_connect()
 do_search <- function(x, y) x + y
 slurm_job <- slurm_apply(do_search,
@@ -29,6 +30,7 @@ results <- slurm_output_dfr(slurm_job)
 slurm_remove_apex(session, slurm_job)
 apex_disconnect(session)
 slurm_remove_local(slurm_job)
+}
 
 }
 \seealso{

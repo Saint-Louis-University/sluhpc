@@ -21,8 +21,10 @@ ssh session
 APEX Connect
 }
 \examples{
+\dontrun{
 # retrive user and pass from .Renviron file in user home directory
 session <- apex_connect()
+}
 
 }
 \seealso{

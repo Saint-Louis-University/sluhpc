@@ -19,6 +19,7 @@ slurm_download(session, slurm_job, parent_directory = "Documents", ...)
 SLURM Download
 }
 \examples{
+\dontrun{
 session <- apex_connect()
 do_search <- function(x, y) x + y
 slurm_job <- slurm_apply(do_search,
@@ -31,6 +32,7 @@ while(slurm_is_running(session, slurm_job)) {
   Sys.sleep(1)
 }
 slurm_download(session, slurm_job)
+}
 
 }
 \seealso{

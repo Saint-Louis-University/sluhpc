@@ -18,6 +18,7 @@ TRUE or FALSE depending on whether the job is currently running on apex
 SLURM Is Job Running
 }
 \examples{
+\dontrun{
 session <- apex_connect()
 do_search <- function(x, y) x + y
 slurm_job <- slurm_apply(do_search,
@@ -27,6 +28,7 @@ slurm_job <- slurm_apply(do_search,
 slurm_upload(session, slurm_job)
 slurm_submit(session, slurm_job)
 slurm_is_running(session, slurm_job)
+}
 
 }
 \seealso{

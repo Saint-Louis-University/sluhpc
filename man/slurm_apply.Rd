@@ -39,10 +39,12 @@ SLURM Apply
 this function overrides \code{\link[rslurm]{slurm_apply}} to add a command in the submission script to load R on APEX and call RScript with a relative path
 }
 \examples{
+\dontrun{
 do_search <- function(x, y) x + y
 slurm_job <- slurm_apply(do_search,
                          data.frame(x = seq( 0, 42,  21),
                                     y = seq(42,  0, -21)),
                          "find_meaning")
+}
 
 }

@@ -16,6 +16,7 @@ a data frame with one column by return value of the function passed to \code{\li
 SLURM Read executed job output into data frame
 }
 \examples{
+\dontrun{
 session <- apex_connect()
 do_search <- function(x, y) x + y
 slurm_job <- slurm_apply(do_search,
@@ -29,6 +30,7 @@ while(slurm_is_running(session, slurm_job)) {
 }
 slurm_download(session, slurm_job)
 results <- slurm_output_dfr(slurm_job)
+}
 
 }
 \seealso{

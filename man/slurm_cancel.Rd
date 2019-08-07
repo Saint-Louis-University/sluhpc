@@ -18,6 +18,7 @@ character representation of stdout
 SLURM Cancel
 }
 \examples{
+\dontrun{
 session <- apex_connect()
 do_search <- function(x, y) x + y
 slurm_job <- slurm_apply(do_search,
@@ -28,6 +29,7 @@ slurm_upload(session, slurm_job)
 slurm_submit(session, slurm_job)
 if(slurm_is_running(session, slurm_job))
   slurm_cancel(session, slurm_job)
+}
 
 }
 \seealso{

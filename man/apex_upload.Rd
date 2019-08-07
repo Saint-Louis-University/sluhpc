@@ -19,10 +19,12 @@ apex_upload(session, files, to = "Documents", verbose = FALSE)
 APEX Upload
 }
 \examples{
+\dontrun{
 # recursively upload files and directories
 session <- apex_connect()
 files <- c(R.home("doc"), R.home("COPYING"))
 apex_upload(session, files, "~/target")
+}
 
 }
 \seealso{

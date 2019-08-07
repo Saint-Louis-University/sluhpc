@@ -19,9 +19,11 @@ apex_download(session, files, to = ".", verbose = FALSE)
 APEX Download
 }
 \examples{
+\dontrun{
 # recursively download files and directories
 session <- apex_connect()
 apex_download(session, "~/target/*", tempdir())
+}
 
 }
 \seealso{
