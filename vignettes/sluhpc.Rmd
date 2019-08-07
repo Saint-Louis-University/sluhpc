@@ -1,0 +1,100 @@
+---
+title: "Parallelize R code on the Saint Louis University High Performance Cluster"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Parallelize R code on the Saint Louis University High Performance Cluster}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>", 
+  eval = FALSE
+)
+```
+
+[Embarrassingly parallel](https://en.wikipedia.org/wiki/Embarrassingly_parallel) calculations are common in R code, and if not actively managed, make for long compute times. The `sluhpc` package can parallelize calculations similar to how `parallel::mclapply()` splits repetitious calculations into subtasks and runs them in parallel on a single machine, but instead of running the subtasks on a single machine, the `sluhpc` package can distribute the work across nodes in the [Saint Louis University](https://www.slu.edu/) (SLU) [High Performance Cluster](https://apex.slu.edu) (HPC).
+
+The purpose of the `sluhpc` package is to simplify the steps necessary to distribute parallel calculations across SLU HPC nodes. The main function `slurm_apply()` automatically divides a given computation over multiple nodes and writes the necessary file structure and scripts to submit a job to the HPC [Slurm Workload Manager](https://en.wikipedia.org/wiki/Slurm_Workload_Manager). The package also contains equally important helper functions to interact with the HPC such as establishing a [Secure Shell](https://en.wikipedia.org/wiki/Secure_Shell) (SSH) connection, uploading/downloading files via [secure copy](https://en.wikipedia.org/wiki/Secure_copy) (SCP), and combining output from disparate nodes.
+
+# .Renviron
+
+By default, credentials to connect to the HPC are read from the environment variables `APEX.SLU.EDU_USER` and `APEX.SLU.EDU_PASS` using [`base::Sys.getenv()`](https://www.rdocumentation.org/packages/base/versions/3.6.1/topics/Sys.getenv). Perhaps most commonly, these variables are set via a [.Renviron file](https://www.rdocumentation.org/packages/base/versions/3.6.1/topics/Startup). This approach has the benefit of keeping R code non-interactive and devoid of credentials but has a disadvantage that the credentials are stored in plain text. If a more secure credentialing method is desired, the default arguments should be overridden.
+
+# Basic Example
+
+To illustrate a typical `sluhpc` workflow, we borrow the example provided in the `rslurm` [vignette](https://cran.r-project.org/web/packages/rslurm/vignettes/rslurm.html).
+
+First, we define a function that accepts a pair of mean and standard deviation parameters, generates a million normal deviates, and returns a corresponding pair of maximum likelihood estimates for the parameters.
+
+```{r}
+my_function <- function(parameter_mu, parameter_sd) {
+  sample <- rnorm(10^6, parameter_mu, parameter_sd)
+  c(sample_mu = mean(sample), sample_sd = sd(sample))
+}
+```
+
+Next we create a parameter data frame where each row is a parameter set and each column matches an argument of the function.
+
+```{r, eval=TRUE}
+my_parameters <- data.frame(parameter_mu = 1:10,
+                            parameter_sd = seq(0.1, 1, length.out = 10))
+
+head(my_parameters, 3)
+```
+
+We now pass that function and the parameters data frame to `slurm_apply()` where we must also specify a job name. We can optionally define the number of cluster nodes to use via the `nodes` argument as well as the number of CPUs per node via the `cpus_per_node` argument (both of which default to 2). The `cpus_per_node` argument is similar to the `mc.cores` argument of `parallel::mclapply()` which sets an upper limit on the number of child processes to run simultaneously within a given node. Additional arguments are passed on to `rslurm::slurm_apply()` via `...`.
+
+```{r}
+library(sluhpc)
+
+slurm_job <- slurm_apply(my_function, 
+                         my_parameters, 
+                         "my_apply")
+```
+
+The `slurm_apply()` function constructs a new directory, which is named the concatenation of "_rslurm_" and the passed value of the jobname argument, in the current working directory. This new directory contains the file structure and scripts necessary to submit a job to the slurm workload manager. The function also returns an object of type `slurm_job` that stores some information about the job including job name, job ID, and the number of nodes to be used.
+
+Next we establish a [SSH](https://en.wikipedia.org/wiki/Secure_Shell) connection to the HPC, use [SCP](https://en.wikipedia.org/wiki/Secure_copy) to upload the newly created job directory, and submit the job to [slurm](https://en.wikipedia.org/wiki/Slurm_Workload_Manager). 
+
+```{r}
+session <- apex_connect()
+slurm_upload(session, slurm_job)
+slurm_submit(session, slurm_job)
+```
+
+At this point if we are willing to wait, we might block until job completion.
+
+```{r}
+while(slurm_is_running(session, slurm_job)) {
+  Sys.sleep(10) # sleep ten seconds
+}
+```
+
+We can also cancel a job if it is taking too long or we notice a mistake in our setup.
+
+```{r, eval=FALSE}
+slurm_cancel(session, slurm_job)
+```
+
+Once the job is complete, we can download the results via [SCP](https://en.wikipedia.org/wiki/Secure_copy), and bind the results from each node together into a data frame object.
+
+```{r}
+slurm_download(session, slurm_job)
+results <- slurm_output_dfr(slurm_job)
+```
+
+At this point, we might wish to remove the job files from the cluster and/or the local copy.
+
+```{r}
+slurm_remove_apex(session, slurm_job)
+slurm_remove_local(slurm_job)
+```
+
+Finally, we should disconnect our [SSH](https://en.wikipedia.org/wiki/Secure_Shell) session to the HPC.
+
+```{r}
+apex_disconnect(session)
+```

@@ -1,0 +1,25 @@
+Package: sluhpc
+Title: Submit R Code to the Saint Louis University High Performance Cluster
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Matthew",
+           family = "Schuelke",
+           role = c("aut", "cre"),
+           email = "matthew.schuelke@slu.edu",
+           comment = c(ORCID = "0000-0001-5755-1725"))
+Description: Functions that simplify submitting R code and retrieving results from the Saint Louis University High Performance Cluster.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Imports: 
+    ssh (>= 0.6.0),
+    rslurm (>= 0.4.0)
+Suggests: 
+    knitr,
+    rmarkdown,
+    covr,
+    testthat (>= 2.1.0)
+VignetteBuilder: knitr
+RoxygenNote: 6.1.1
+URL: https://github.com/saint-louis-university/sluhpc
+BugReports: https://github.com/saint-louis-university/sluhpc/issues
