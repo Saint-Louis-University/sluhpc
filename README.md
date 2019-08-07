@@ -26,6 +26,8 @@ execution of
 the [Saint Louis University](https://www.slu.edu) (SLU) [High
 Performance Cluster](https://apex.slu.edu) (HPC).
 
+<br />
+
 ## Installation
 
 You can install `sluhpc` from
@@ -34,6 +36,8 @@ You can install `sluhpc` from
 ``` r
 remotes::install_github("Saint-Louis-University/sluhpc")
 ```
+
+<br />
 
 ## Notes
 
@@ -50,6 +54,8 @@ addresses](https://en.wikipedia.org/wiki/IP_address) registered to SLU.
 If working off campus, you will need to log into the
 [VPN](https://vpn.slu.edu/+CSCOE+/logon.html) using your SLU Net ID and
 password.
+
+<br />
 
 ## Example
 
@@ -104,6 +110,8 @@ slurm_download(session, slurm_job)
 results <- slurm_output_dfr(slurm_job)
 apex_disconnect(session)
 ```
+
+<br />
 
 ## About
 

@@ -54,6 +54,8 @@ sticker(subplot = "man/figures/slu_icon_church.png",
 
 The goal of `sluhpc` is to simplify the [parallelization](https://en.wikipedia.org/wiki/Parallel_computing) and execution of [R](https://en.wikipedia.org/wiki/R_(programming_language)) code on the [Saint Louis University](https://www.slu.edu) (SLU) [High Performance Cluster](https://apex.slu.edu) (HPC).
 
+<br />
+
 ## Installation
 
 You can install `sluhpc` from [GitHub](https://github.com/Saint-Louis-University/sluhpc) with:
@@ -61,6 +63,8 @@ You can install `sluhpc` from [GitHub](https://github.com/Saint-Louis-University
 ```{r, eval=FALSE}
 remotes::install_github("Saint-Louis-University/sluhpc")
 ```
+
+<br />
 
 ## Notes
 
@@ -71,6 +75,8 @@ The current version of R on the cluster is [Microsoft R Open](https://mran.micro
 ### IP Restriction
 
 The cluster only accepts connections from [IP addresses](https://en.wikipedia.org/wiki/IP_address) registered to SLU. If working off campus, you will need to log into the [VPN](https://vpn.slu.edu/+CSCOE+/logon.html) using your SLU Net ID and password.
+
+<br />
 
 ## Example
 
@@ -116,6 +122,8 @@ slurm_download(session, slurm_job)
 results <- slurm_output_dfr(slurm_job)
 apex_disconnect(session)
 ```
+
+<br />
 
 ## About
 
