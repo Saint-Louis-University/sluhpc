@@ -3,9 +3,6 @@
 language: R
 cache: packages
 
-before_install:
-  - sudo apt-get install -y libssh-dev
-
 r:
   - oldrel
   - release
@@ -13,6 +10,11 @@ r:
 os:
   - linux
   - osx
+
+addons:
+  apt:
+    packages:
+    - libssh-dev
 
 after_success:
   - Rscript -e 'covr::codecov()'
